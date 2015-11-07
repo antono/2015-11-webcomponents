@@ -1,491 +1,279 @@
 <link rel="import" href="node_modules/web-presentation/dist/web-presentation.html">
+<link rel="import" href="x-counter.html">
+
 <link rel="stylesheet" href="present.css">
 
 <web-presentation>
 
   <web-slide-title>
-    <h2> Async / Await </h2>
+    <h2> Web Components </h2>
     <p><a href="http://twitter.com/antono/"> Anton Vasiljev </a></p>
   </web-slide-title>
 
-  <web-slide-title>
-    <ul style="font-size: 0.7em;">
-      <li> http://antono.info/x/step1.txt &rarr; /step2.txt </li>
-      <li> http://antono.info/x/step2.txt &rarr; /step3.txt </li>
-      <li> http://antono.info/x/step3.txt &rarr; /step4.txt </li>
-      <li> http://antono.info/x/step4.txt &rarr; /step5.txt </li>
-      <li> http://antono.info/x/step5.txt &rarr; /step6.txt </li>
-      <li> http://antono.info/x/step6.txt &rarr; /step7.txt </li>
-      <li> http://antono.info/x/step7.txt &rarr; done </li>
-    </ul>
-  </web-slide-title>
-
-  <web-slide-title>
+  <web-slide>
     <ol>
-      <li> Fetch URL </li>
-      <li> Read new URL from result </li>
-      <li> repeat 7 times </li>
+      <li> <a href="http://w3c.github.io/webcomponents/spec/shadow/"> Shadow DOM </a></li>
+      <li> <a href="http://w3c.github.io/webcomponents/spec/custom/">Custom Elements</a> </li>
+      <li> <a href="https://html.spec.whatwg.org/multipage/scripting.html#the-template-element"> Templates </a></li>
+      <li> <a href="http://w3c.github.io/webcomponents/spec/imports/"> HTML Imports </a></li>
     </ol>
-  </web-slide-title>
-
-  <web-slide-title>
-    <h2> Synchronous IO </h2>
-    <h3> blocking </h3>
-    <h3> simple mental model </h3>
-  </web-slide-title>
-
-  <web-slide>
-    <pre>
-      <code class='ruby'>
-url = fetch('http://antono.info/x/step1.txt')
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-puts url # => 'done'
-      </code>
-    </pre>
   </web-slide>
 
   <web-slide-title>
-    <h2> Classic Asynchronous IO </h2>
-    <h3> non blocking </h3>
+    <h3> Shadow DOM </h3>
   </web-slide-title>
 
   <web-slide>
     <pre>
-      <code class='javascript huge'>
-fetch(url, (url) => {
-  console.log(url);
-})
+      <code>
+&lt;button&gt;Hello!&lt;/button&gt;
+
+&lt;script&gt;
+var host = document.querySelector('button');
+var root = host.createShadowRoot();
+root.textContent = 'Привет!';
+&lt;/script&gt;
+
       </code>
     </pre>
   </web-slide>
 
   <web-slide>
     <pre>
-      <code class='javascript small'>
-fetch(url, (url) => {
-  fetch(url, (url) => {
-    fetch(url, (url) => {
-      fetch(url, (url) => {
-        fetch(url, (url) => {
-          fetch(url, (url) => {
-            fetch(url, (res) => {
-              console.log(res) // 'done'
-            })
-          })
-        })
-      })
-    })
-  })
-})
+      <code>
+        document
+          .querySelector('button')
+          .textContent // => Hello!
       </code>
     </pre>
   </web-slide>
 
   <web-slide>
-    <img src="images/yo.callbacks.jpg" alt="" />
-  </web-slide>
-
-  <web-slide-title style="background-image: url(images/problem1.png)" data-transition="newspaper">
-    <h2> Problems? </h2>
-  </web-slide-title>
-
-  <web-slide-title>
-    <h2> deep nesting </h2>
-  </web-slide-title>
-
-  <web-slide>
     <pre>
-      <code class='javascript small'>
-step1('yo!', (res1) => {
-  step2(res1, (res2) => {
-    step3(res2, (res3) => {
-      step4(res3, (res4) => {
-        step5(res4, (res5) => {
-          step6(res5, (res6) => {
-            step7(res6, (res7) => {
-              ...
-            })
-          })
-        })
-      })
-    })
-  })
-})
+      <code>
+        button::shadow {
+          color: red;
+        }
       </code>
     </pre>
   </web-slide>
 
   <web-slide-title>
-    <h2> try / catch </h2>
+    <h3> Custom Elements </h3>
   </web-slide-title>
 
   <web-slide>
     <pre>
-      <code class='javascript big'>
-try {
-  fetch('http://ya.ru/', () => {
-    throw new Error('Hello Kitty')
-  })
-} catch (e) {
-  console.log(e);
-}
+      <code>
+var XCounter = document.registerElement('x-counter');
       </code>
     </pre>
   </web-slide>
 
   <web-slide>
-    Uncaught Error: Hello Kitty
-  </web-slide>
-
-  <web-slide>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/8aGhZQkoFbQ" frameborder="0" allowfullscreen></iframe>
-  </web-slide>
-
-  <web-slide-title>
-    <h2> git blame lies </h2>
-  </web-slide-title>
-
-  <web-slide>
     <pre>
-      <code class='javascript small'>
-<span style='color: red'>step1('yo!', (res1) => {</span><span style='color: orange'>
-  step2(res1, (res2) => {
-    step3(res2, (res3) => {
-      step4(res3, (res4) => {
-        step5(res4, (res5) => {
-          step6(res5, (res6) => {
-            step7(res6, (res7) => {
-              ...
-            })
-          })
-        })
-      })
-    })
-  })
-</span><span style='color: red'>})</span>
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-		<h2> git blame -w </h2>
-  </web-slide>
-
-  <web-slide-title>
-		<h2> Callbacks -> Promises </h2>
-  </web-slide-title>
-
-  <web-slide>
-    <blockquote cite="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">
-      <p>
-        The Promise object is used for deferred and asynchronous computations.
-      </p>
-      <p>
-        A Promise represents an operation that hasn't completed yet,
-        but is expected in the future.
-      </p>
-    </blockquote>
-    <a href="http://www.html5rocks.com/en/tutorials/es6/promises/"> JavaScript Promises </a>
-  </web-slide>
-
-  <web-slide>
-    <h3> fetch with callback </h3>
-    <pre>
-      <code class='javascript small'>
-fetch(url, (err, res) => {
-  if (!err) {
-    ...
-  } else {
-    ...
-  }
+      <code>
+var XCounter = document.registerElement('x-counter', {
+  prototype: Object.create(HTMLElement.prototype)
 });
       </code>
     </pre>
   </web-slide>
 
   <web-slide>
-    <h3> promisified fetch </h3>
     <pre>
-      <code class='javascript small'>
-function pfetch(url) {
-  return new <span style="color:red">Promise</span>((resolve, reject) => {
-    fetch(url, (err, res) => {
-      if (!err) {
-        resolve(res);
-      } else {
-        reject(err);
+      <code>
+document.body.appendChild(new XCounter());
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code>
+        &lt;x-counter&gt;&lt;/x-counter&gt;
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+
+var proto = Object.create(HTMLElement.prototype);
+
+Object.defineProperty(proto, "count", {
+  value: 0,
+  writable: true
+});
+
+var XCounter = document.registerElement('x-counter', {
+  prototype: proto
+});
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+var proto = Object.create(HTMLElement.prototype);
+
+proto.inc = function () {
+  this.count += 1;
+}
+
+var XCounter = document.registerElement('x-counter', {
+  prototype: proto
+});
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+var proto = Object.create(HTMLElement.prototype, {
+  createdCallback:  function () {},
+  attachedCallback: function () {},
+  detachedCallback: function () {},
+  attributeChangedCallback: function (attr, oldVal, newVal) {}
+})
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+proto.createdCallback = function () {
+  this.addEventListener('click', this.inc.bind(this));
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title>
+    <h2> Templates </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+&lt;template id=&quot;tpl&quot;&gt;
+  &lt;style&gt;
+    span {
+      color: green;
+      font-weight: bold;
+    }
+  &lt;/style&gt;
+
+  &lt;span&gt; click me! &lt;/span&gt;
+&lt;/template&gt;
+
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+var tpl   = document.getElementById('tpl');
+var clone = document.importNode(tpl.content, true);
+
+document.body.appendChild(clone);
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+var tpl   = document.getElementById('tpl');
+var root  = document.createShadowRoot();
+var clone = document.importNode(tpl.content, true);
+
+root.appendChild(clone);
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+<s>&lt;script type=&quot;text/template&quot;&gt;&lt;/script&gt;</s>
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title>
+    <h3> HTML Imports </h3>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+&lt;link rel=&quot;import&quot; href=&quot;x-counter.html&quot;&gt;
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code>
+        document.currentScript.ownerDocument;
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+var importee = document.currentScript.ownerDocument;
+
+proto.createdCallback = function () {
+  var tpl = importee.querySelector('#tpl');
+  this.root = this.createShadowRoot();
+  this.root.appendChild(document.importNode(tpl.content, true))
+}
+
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class="small">
+proto.inc = function () {
+  this.count += 1;
+  this.root.querySelector('span').textContent = this.count;
+}
+      </code>
+    </pre>
+  </web-slide>
+
+
+  <web-slide>
+    <style>
+      x-counter {
+        display: block;
+        border: 1px solid red;
+        padding: 20px;
+        width: 50%;
+        color: red;
       }
-    });
-  });
-}
-      </code>
-    </pre>
+    </style>
+    <x-counter>Hello</x-counter>
   </web-slide>
 
   <web-slide>
-    <h2> in browsers </h2>
-    <pre>
-      <code class='javascript'>
-window.fetch('/')
-  .then(response => response.text())
-  .then(console.log.bind(console))
-  .catch(console.log.bind(console))
-      </code>
-    </pre>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a>
-  </web-slide>
-
-  <web-slide>
-    <h3> simplified promised fetch </h3>
-    <pre>
-      <code class='javascript big'>
-function pfetch(url) {
-  return fetch(url).then(resp => resp.text());
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-pfetch('http://antono.info/x/step1.txt')
-  .then(pfetch)
-  .then(pfetch)
-  .then(pfetch)
-  .then(pfetch)
-  .then(pfetch)
-  .then(pfetch)
-  .catch(err => console.log(err.stack))
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide-title>
-    <h2> Promises + Generators </h2>
-  </web-slide-title>
-
-  <web-slide>
-    <pre>
-      <code>
-function <span style="color:red">*</span> foo() {
-  yield 1;
-  yield 2;
-  yield 3;
-  yield 4;
-  yield 5;
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code>
-        var it = foo();
-        it.next(); // { value: 1, done: false }
-        it.next(); // { value: 2, done: false }
-        it.next(); // { value: 3, done: false }
-        it.next(); // { value: 4, done: false }
-        it.next(); // { value: 5, done: false }
-        it.next(); // { value: undefined, done: true }
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-function pfetch(url) {
-  return fetch(url).then(resp => resp.text());
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-function <span style="color:red">*</span> fetchSeq(url) {
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-const gen = fetchSeq('http://antono.info/x/step1.txt');
-
-gen.next().value
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .catch(err => console.log(err.stack))
-
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide-title>
-		<h2> Task.js </h2>
-  </web-slide-title>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-<span style="color:red">spawn</span>(function <span style="color:red">*</span> (url) {
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-})
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide-title>
-		<h2> Async / Await </h2>
-  </web-slide-title>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-function pfetch(url) {
-  return fetch(url).then(resp => resp.text());
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-async function fetchSeq(url) {
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  return "Found: ${url}";
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-fetchSeq('http://antono.info/x/step1.txt')
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-fetchSeq('http://antono.info/x/step1.txt')
-  .then(result => console.log(result))
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide-title>
-		<h2> Comparsion </h2>
-  </web-slide-title>
-
-  <web-slide>
-    <pre>
-      <code class='ruby'>
-url = fetch('http://antono.info/x/step1.txt')
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-url = fetch(url)
-puts url # => 'done'
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript small'>
-fetch(url, (url) => {
-  fetch(url, (url) => {
-    fetch(url, (url) => {
-      fetch(url, (url) => {
-        fetch(url, (url) => {
-          fetch(url, (url) => {
-            fetch(url, (res) => {
-              console.log(res) // 'done'
-            })
-          })
-        })
-      })
-    })
-  })
-})
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-<span style="color:red">spawn</span>(function <span style="color:red">*</span> (url) {
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-  url = yield pfetch(url);
-})
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-async function fetchSeq(url) {
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-  url = await pfetch(url);
-}
-      </code>
-    </pre>
+    bower install webcomponentsjs
   </web-slide>
 
   <web-slide-title>
 		<h2> Questions? </h2>
+    <a href="http://twitter.com/antono">http://twitter.com/antono</a>
+    <a href="http://webcomponents.org/">http://webcomponents.org/</a>
   </web-slide-title>
 
   <web-presentation-progress></web-presentation-progress>
