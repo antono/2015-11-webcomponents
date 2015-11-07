@@ -1,0 +1,26 @@
+{
+  "name": "2015-11-ciklum-asyncawait",
+  "version": "1.0.0",
+  "description": "Presentation for Ciklum Frontend Saturday",
+  "main": "index.js",
+  "scripts": {
+    "start": "$(npm bin)/hs",
+    "async": "$(npm bin)/babel-node demo.asyncawait.js"
+  },
+  "keywords": [
+    "presentation",
+    "async",
+    "await"
+  ],
+  "author": "Antono Vasiljev <antono.vasiljev@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^5.0",
+    "highlight.js": "^8.9.1",
+    "http-server": "^0.8.5",
+    "web-presentation": "^1.0.2"
+  },
+  "devDependencies": {
+    "node-fetch": "^1.3.3"
+  }
+}
