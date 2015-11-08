@@ -28,16 +28,18 @@ proto.createdCallback = function () {
   var tpl = importee.querySelector('#tpl');
 
   this.root = this.createShadowRoot();
-  this.root.appendChild(document.importNode(tpl.content, true))
+  this.root.appendChild(tpl.content.cloneNode(true));
 
   this.addEventListener('click', this.inc.bind(this));
 }
 
 proto.attributeChangedCallback = function (attr, oldVal, newVal) {
-  this.count = newVal;
+  if (attr === 'count') {
+    this.count = parseInt(newVal);
+  }
 }
 
 var XCounter = document.registerElement('x-counter', { prototype: proto });
 </script>
 
-<x-counter>Hello</x-counter>
+<x-counter count="10">Hello</x-counter>
