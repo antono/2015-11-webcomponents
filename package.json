@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Presentation for Ciklum Frontend Saturday",
   "scripts": {
-    "start": "$(npm bin)/hs",
+    "start": "$(npm bin)/hs"
   },
   "keywords": [
     "presentation",
