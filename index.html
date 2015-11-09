@@ -180,7 +180,7 @@ proto.createdCallback = function () {
     <pre>
       <code class="small">
 var tpl   = document.getElementById('tpl');
-var clone = document.importNode(tpl.content, true);
+var clone = tpl.content.cloneNode(true);
 
 document.body.appendChild(clone);
       </code>
@@ -192,7 +192,7 @@ document.body.appendChild(clone);
       <code class="small">
 var tpl   = document.getElementById('tpl');
 var root  = document.createShadowRoot();
-var clone = document.importNode(tpl.content, true);
+var clone = tpl.content.cloneNode(true);
 
 root.appendChild(clone);
       </code>
@@ -233,11 +233,12 @@ root.appendChild(clone);
 var importee = document.currentScript.ownerDocument;
 
 proto.createdCallback = function () {
-  var tpl = importee.querySelector('#tpl');
-  this.root = this.createShadowRoot();
-  this.root.appendChild(document.importNode(tpl.content, true))
-}
+  var tpl   = importee.querySelector('#tpl');
+  var clone = tpl.content.cloneNode(true);
 
+  this.createShadowRoot();
+  this.shadowRoot.appendChild(clone);
+}
       </code>
     </pre>
   </web-slide>
@@ -247,7 +248,7 @@ proto.createdCallback = function () {
       <code class="small">
 proto.inc = function () {
   this.count += 1;
-  this.root.querySelector('span').textContent = this.count;
+  this.shadowRoot.querySelector('span').textContent = this.count;
 }
       </code>
     </pre>
@@ -255,6 +256,11 @@ proto.inc = function () {
 
 
   <web-slide>
+    <pre>
+      <code>
+&lt;x-counter&gt;Hello&lt;/x-counter&gt;
+      </code>
+    </pre>
     <style>
       x-counter {
         display: block;

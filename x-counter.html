@@ -19,7 +19,7 @@ Object.defineProperty(proto, "count", {
 
 proto.inc = function () {
   this.count += 1;
-  this.root.querySelector('span').textContent = this.count;
+  this.shadowRoot.querySelector('span').textContent = this.count;
 }
 
 var importee = document.currentScript.ownerDocument;
@@ -27,8 +27,8 @@ var importee = document.currentScript.ownerDocument;
 proto.createdCallback = function () {
   var tpl = importee.querySelector('#tpl');
 
-  this.root = this.createShadowRoot();
-  this.root.appendChild(tpl.content.cloneNode(true));
+  this.createShadowRoot();
+  this.shadowRoot.appendChild(tpl.content.cloneNode(true));
 
   this.addEventListener('click', this.inc.bind(this));
 }
