@@ -39,7 +39,7 @@ proto.attributeChangedCallback = function (attr, oldVal, newVal) {
   }
 }
 
-var XCounter = document.registerElement('x-counter', { prototype: proto });
+document.registerElement('x-counter', { prototype: proto });
 </script>
 
 <x-counter count="10">Hello</x-counter>
