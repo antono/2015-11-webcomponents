@@ -1,5 +1,5 @@
 {
-  "name": "2015-11-asyncawait",
+  "name": "2015-11-webcomponents",
   "version": "1.0.0",
   "description": "Presentation for Ciklum Frontend Saturday",
   "scripts": {
@@ -13,5 +13,12 @@
   "dependencies": {
     "http-server": "^0.8.5",
     "web-presentation": "^1.0.2"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/antono/2015-11-webcomponents"
+  },
+  "engines" : {
+    "node" : ">=5.1.0"
   }
 }
